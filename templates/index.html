@@ -1,13 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script src="static/script.js"></script>
-    
+    <meta charset="UTF-8">
+    <title>Simple Chat App</title>
+    <style>
+        #chat-box {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+        }
+    </style>
 </head>
 <body>
-    <!-- Your web page content here -->
+    <div id="chat-box"></div>
+    <input type="text" id="message" placeholder="Type your message">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        function sendMessage() {
+            var messageInput = document.getElementById('message');
+            var message = messageInput.value;
+            messageInput.value = '';
+
+            if (message.trim() !== '') {
+                var chatBox = document.getElementById('chat-box');
+                var newMessage = document.createElement('p');
+                newMessage.textContent = message;
+                chatBox.appendChild(newMessage);
+
+                // Scroll chat box to bottom
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+    </script>
 </body>
 </html>
+
 
 
