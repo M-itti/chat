@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Simple Chat App</title>
+    <title>Chat Application</title>
     <style>
+        /* Your CSS styles here */
         #chat-box {
-            width: 300px;
+            /* Your styles for the chat box */
             height: 300px;
-            border: 1px solid #ccc;
             overflow-y: scroll;
         }
     </style>
@@ -16,31 +16,12 @@
 <body>
     <div id="chat-box"></div>
     <input type="text" id="message" placeholder="Type your message">
-    <button onclick="sendMessage()">Send</button>
+    <button id="sendButton">Send</button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
-    <script>
-        var socket = io(); // Establish Socket.IO connection
-        
-        function sendMessage() {
-            var messageInput = document.getElementById('message');
-            var message = messageInput.value;
-            messageInput.value = '';
-
-            if (message.trim() !== '') {
-                var chatBox = document.getElementById('chat-box');
-                var newMessage = document.createElement('p');
-                newMessage.textContent = message;
-                chatBox.appendChild(newMessage);
-
-                // Scroll chat box to bottom
-                chatBox.scrollTop = chatBox.scrollHeight;
-
-                // Send message to the server using Socket.IO
-                socket.emit('my event', { data: message });
-            }
-        }
-    </script>
+    <!-- Link your external JavaScript file -->
+    <script src="static/script.js"></script>
 </body>
 </html>
+
+
 
