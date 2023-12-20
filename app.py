@@ -21,6 +21,12 @@ db.init_app(app)
 app.register_blueprint(auth_bp, url_prefix='/auth')
 
 @app.route("/")
+@app.route("/home")
+def home_page():
+    return render_template('home.html')
+
+
+@app.route("/chat")
 def index():
     messages = Message.query.all()
     message_texts = [message.text for message in messages]  
