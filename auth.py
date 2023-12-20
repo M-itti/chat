@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 from flask import Blueprint, render_template, redirect, url_for, flash
 from models import User, db
 from flask_bcrypt import check_password_hash, generate_password_hash
-from flask import request 
+from flask import request, session
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -11,6 +11,7 @@ def register():
     if request.method == 'POST':
         print("reg in") # TODO
         username = request.form.get('username')
+        session['username'] = username
         password = request.form.get('password')
         hashed_password = generate_password_hash(password).decode('utf-8')
 
@@ -38,12 +39,12 @@ def login():
             # Log the user in
             flash('Logged in successfully!', 'success')
             print("logged in") # TODO
-            return redirect(url_for('index'))
+            return redirect(url_for('chat'))
         else:
             print(" didn't logged in") # TODO
             flash('Login unsuccessful. Please check your credentials.', 'danger')
 
-    print("login finished **************")
+    print("login failed **************")
     return render_template('login.html')
 
 @auth_bp.route("/logout")

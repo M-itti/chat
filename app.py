@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO
 from auth import auth_bp  
 #from flask_migrate import Migrate
-
+from flask import session
 from models import db
 from models import Message
 
@@ -27,11 +27,13 @@ def home_page():
 
 
 @app.route("/chat")
-def index():
+def chat():
     messages = Message.query.all()
     message_texts = [message.text for message in messages]  
+    username = session['username']
     print(message_texts)
-    return render_template('index.html', messages=messages)
+    print(">>>>>>>>>>> session is working <<<<<<<<<<<<", username)
+    return render_template('chat.html', messages=messages, username=username)
 
 # Save it to the database
 @socketio.on('my event')
