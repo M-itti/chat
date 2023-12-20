@@ -9,6 +9,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        print("reg in") # TODO
         username = request.form.get('username')
         password = request.form.get('password')
         hashed_password = generate_password_hash(password).decode('utf-8')
@@ -20,12 +21,15 @@ def register():
         flash('Account created successfully!', 'success')
         return redirect(url_for('auth.login'))
 
+    print("didn't reg up") # TODO
     return render_template('register.html')
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    print("login started **************")
     if request.method == 'POST':
         username = request.form.get('username')
+        print("login inside post **************")
         password = request.form.get('password')
 
         user = User.query.filter_by(username=username).first()
@@ -33,10 +37,13 @@ def login():
         if user and check_password_hash(user.password, password):
             # Log the user in
             flash('Logged in successfully!', 'success')
+            print("logged in") # TODO
             return redirect(url_for('index'))
         else:
+            print(" didn't logged in") # TODO
             flash('Login unsuccessful. Please check your credentials.', 'danger')
 
+    print("login finished **************")
     return render_template('login.html')
 
 @auth_bp.route("/logout")
