@@ -10,8 +10,6 @@ socket.on('update_messages', function(messages) {
     });
 });
 
-
-
 function sendMessage() {
     var messageInput = document.getElementById('message_input');
     var message = messageInput.value.trim();
