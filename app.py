@@ -1,55 +1,25 @@
 from flask import Flask, render_template
-from flask_socketio import SocketIO
-from auth import auth_bp  
-#from flask_migrate import Migrate
-from flask import session
-from models import db
-from models import Message
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app, cors_allowed_origins='*')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'  # SQLite database URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking, as it is unnecessary
+messages = []  # To store messages
 
-socketio = SocketIO(app)
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-#migrate = Migrate(app, db)
-db.init_app(app)
+@socketio.on('new_message')
+def handle_new_message(data):
+    messages.append(data)
+    emit('update_messages', messages, broadcast=True)
 
-# Register the authentication blueprint with the app
-app.register_blueprint(auth_bp, url_prefix='/auth')
+@socketio.on('connect')
+def handle_connect():
+    emit('update_messages', messages)
 
-@app.route("/")
-@app.route("/home")
-def home_page():
-    return render_template('home.html')
-
-
-@app.route("/chat")
-def chat():
-    messages = Message.query.all()
-    message_texts = [message.text for message in messages]  
-    username = session['username']
-    print(message_texts)
-    print(">>>>>>>>>>> session is working <<<<<<<<<<<<", username)
-    return render_template('chat.html', messages=messages, username=username)
-
-# Save it to the database
-@socketio.on('my event')
-def handle_message(data):
-    from models import Message
-    print(data)
-    # Assuming 'user_id' is available in the 'data' dictionary
-    #new_message = Message(text=data['message'], user_id=data['user_id'])
-    new_message = Message(text=data['message'], user_id="tmp user")
-    db.session.add(new_message)
-    db.session.commit()
-    print('received message: ', data)
-
-if __name__ == "__main__":
-    # Create the database tables (if they don't exist) before running the app
-    with app.app_context():
-        db.create_all()
+if __name__ == '__main__':
     socketio.run(app)
 
