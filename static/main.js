@@ -10,17 +10,28 @@ socket.on('update_messages', function(messages) {
     });
 });
 
+
+
 function sendMessage() {
     var messageInput = document.getElementById('message_input');
     var message = messageInput.value.trim();
+    
     if (message !== '') {
-        socket.emit('new_message', { 'username': getUsername(), 'message': message });
+        var username = getUsername();
+        socket.emit('new_message', { 'username': username, 'message': message });
         messageInput.value = '';
     }
 }
 
 function getUsername() {
-    var username = prompt('Enter your username:');
-    return username ? username.trim() : 'Anonymous';
+    var storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+        return storedUsername;
+    } else {
+        var username = prompt('Enter your username:');
+        username = username ? username.trim() : 'Anonymous';
+        localStorage.setItem('username', username);
+        return username;
+    }
 }
 
