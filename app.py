@@ -2,8 +2,8 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from model import User
-from auth import auth
 from model import db, User
+from auth import auth_bp
 
 app = Flask(__name__)
 
@@ -14,10 +14,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 socketio = SocketIO(app, cors_allowed_origins='*')
 
 db.init_app(app)
+app.register_blueprint(auth_bp, url_prefix='/auth')
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/home')
+def home_page():
+    return render_template('home.html')
+
+@app.route('/chat')
+def chat():
+    messages = User.query.all()
+    message_text = [message.message for message in messages]
+    print(message_text)
+    return render_template('index.html', messages=messages)
 
 @socketio.on('new_message')
 def handle_new_message(data):
