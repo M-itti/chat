@@ -30,7 +30,6 @@ def home_page():
 def chat():
     messages = User.query.all()
     message_text = [message.message for message in messages]
-    print(message_text)
     return render_template('index.html', messages=messages)
 
 # retrieve the session username
@@ -39,7 +38,6 @@ def handle_new_message(data):
     username = data.get('username')
     message_content = data.get('message')
     ses_username = session['username']
-    print(data)
     
     # Create a new Message instance
     new_message = User(username=username, message=message_content)

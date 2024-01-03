@@ -34,7 +34,6 @@ def login():
         if user and check_password_hash(user.password, password):
             # Log the user in
             session['username'] = username
-            print('session username logged in: ', session['username'])
             flash('Logged in successfully!', 'success')
             return redirect(url_for('chat'))
         else:
@@ -44,6 +43,8 @@ def login():
 
 @auth_bp.route("/logout")
 def logout():
-    # Implement logout logic here
-    return "Logged out successfully"
+    session.pop('username', None) 
+    # TODO redirect and flash logged out 
+    flash('Logged out in successfully!', 'success')
+    return redirect(url_for('home_page'))
 
