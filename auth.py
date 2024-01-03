@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 from flask import Blueprint, render_template, redirect, url_for, flash
 from model import User, db
 from flask_bcrypt import check_password_hash, generate_password_hash
-from flask import request 
+from flask import request, session
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -33,6 +33,8 @@ def login():
 
         if user and check_password_hash(user.password, password):
             # Log the user in
+            session['username'] = username
+            print('session username logged in: ', session['username'])
             flash('Logged in successfully!', 'success')
             return redirect(url_for('chat'))
         else:
