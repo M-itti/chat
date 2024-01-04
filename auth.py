@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from model import User, db
 from flask_bcrypt import check_password_hash, generate_password_hash
 from flask import request, session
+from sqlalchemy import exc
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -13,13 +14,17 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
         hashed_password = generate_password_hash(password).decode('utf-8')
+        
+        try:
+            new_user = User(username=username, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created successfully!', 'success')
+            return redirect(url_for('auth.login'))
 
-        # Save user to the database
-        new_user = User(username=username, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Account created successfully!', 'success')
-        return redirect(url_for('auth.login'))
+        except exc.IntegrityError:
+            db.session.rollback()
+            flash('Username already exists. Please choose different one', 'danger')
 
     return render_template('register.html')
 
@@ -44,7 +49,6 @@ def login():
 @auth_bp.route("/logout")
 def logout():
     session.pop('username', None) 
-    # TODO redirect and flash logged out 
     flash('Logged out in successfully!', 'success')
     return redirect(url_for('home_page'))
 
