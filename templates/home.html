@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Chat Web App</title>
     <!-- Add any CSS links or stylesheets here -->
     <style>
@@ -37,13 +38,23 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <header>
         <h1>Chat Web App</h1>
     </header>
 
     <nav>
-        <a href="auth/register">Register</a>
-        <a href="auth/login">Login</a>
+        <a href="register">Register</a>
+        <a href="login">Login</a>
     </nav>
 
     <!-- Add any necessary JavaScript here -->
