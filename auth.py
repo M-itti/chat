@@ -13,6 +13,9 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        print("registered")
+        print(username)
+        print(password)
         hashed_password = generate_password_hash(password).decode('utf-8')
         
         try:
