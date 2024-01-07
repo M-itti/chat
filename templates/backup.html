@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    
+    <!-- Check if there are flashed messages and display them -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <form action="{{ url_for('auth.login') }}" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+        <input type="submit" value="Login">
+    </form>
+    
+    <p>Don't have an account yet? <a href="{{ url_for('auth.register') }}">Register here</a></p>
+</body>
+</html>
+
+

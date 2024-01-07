@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Define other styles as needed */
+.chat-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 60%;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: calc(100% - 70px);
+    padding: 8px;
+    margin-right: 10px;
+}
+
+button {
+    margin-right: 100px;
+    padding: 8px 15px;
+    position: relative;
+    left: 15px;
+}
+
+/* Add styles for your logout link */
+a {
+    color: blue;
+    text-decoration: underline;
+    margin-top: 20px;
+    display: block;
+    position: relative;
+    left: 30px;
+}
+

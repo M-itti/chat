@@ -6,7 +6,8 @@ from model import db, User
 from auth import auth_bp
 from flask import jsonify, session
 
-app = Flask(__name__)
+#app = Flask(__name__)
+app = Flask(__name__, static_folder='assets')
 
 app.config['SECRET_KEY'] = 'secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.db'  
