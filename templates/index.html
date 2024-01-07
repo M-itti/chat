@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chatroom</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
     <ul id="messages"></ul>
@@ -11,6 +12,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
+
 </body>
 </html>
 
