@@ -3,6 +3,9 @@ var socket = io.connect('http://' + document.domain + ':' + location.port);
 // Function to generate messages dynamically
 socket.on('update_messages', function(messages) {
 		const messageContainer = document.getElementById('messageContainer');
+    const chatBox = messageContainer.querySelector('.chat-box');
+    // Clear the existing messages
+    chatBox.innerHTML = '';
 
 		messages.forEach(message => {
 			const messageDiv = document.createElement('div');
@@ -42,6 +45,8 @@ async function sendMessage() {
 
     var messageInput = document.getElementById('message_input');
     var message = messageInput.value.trim();
+    console.log(message, "inside sendMessage")
+    console.log(messageInput, "inside sendMessage")
     
     if (message !== '') {
         var username = await getUsername();
