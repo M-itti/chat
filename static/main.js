@@ -13,7 +13,7 @@ socket.on('update_messages', function(messages) {
     });
 });
 
-// sendMessage() is triggered from html
+// sendMessage() is triggered from html <input>
 async function sendMessage() {
     var messageInput = document.getElementById('message_input');
     var message = messageInput.value.trim();
