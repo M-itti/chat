@@ -1,6 +1,29 @@
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
+// Function to generate messages dynamically
+socket.on('update_messages', function(messages) {
+		const messageContainer = document.getElementById('messageContainer');
+
+		messages.forEach(message => {
+			const messageDiv = document.createElement('div');
+			messageDiv.className = 'media w-50 mb-3';
+			
+			messageDiv.innerHTML = `
+				<img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+				<div class="media-body ml-3">
+					<div class="bg-light rounded py-2 px-3 mb-2">
+						<p class="text-small mb-0 text-muted">${message.username}: ${message.message}</p>
+					</div>
+					<p class="small text-muted">${message.timestamp}</p>
+				</div>
+			`;
+			
+			messageContainer.querySelector('.chat-box').appendChild(messageDiv);
+		});
+})
+
 // update messages onboard which is received from server
+/*
 socket.on('update_messages', function(messages) {
     var ul = document.getElementById('messages');
     ul.innerHTML = '';
@@ -12,9 +35,11 @@ socket.on('update_messages', function(messages) {
       }
     });
 });
+*/
 
-// sendMessage() is triggered from html
+// sendMessage() is triggered from html <input>
 async function sendMessage() {
+
     var messageInput = document.getElementById('message_input');
     var message = messageInput.value.trim();
     
