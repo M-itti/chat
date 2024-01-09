@@ -56,7 +56,15 @@ def handle_new_message(data):
 def handle_connect():
     # Retrieve all messages from the database and emit them to the client
     messages = User.query.all()
-    emit('update_messages', [{'username': msg.username, 'message': msg.message} for msg in messages])
+
+    for msg in messages:
+        print(msg.username)
+        print(msg.message)
+        print(type(msg.username))
+        print(type(msg.message))
+
+        #if not isinstance(msg.message, type(None)) and msg.message != "None":
+        emit('update_messages', [{'username': msg.username, 'message': msg.message} for msg in messages])
 
 if __name__ == '__main__':
     with app.app_context():
