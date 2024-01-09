@@ -34,15 +34,18 @@ def chat():
     message_text = [message.message for message in messages]
     return render_template('index.html', messages=messages, username=username)
 
+# TODO: store the time in database
 # retrieve the session username
 @socketio.on('new_message')
 def handle_new_message(data):
     username = data.get('username')
     message_content = data.get('message')
+    timestamp = data.get('timestamp')
+    print(timestamp)
     ses_username = session['username']
     
     # Create a new Message instance
-    new_message = User(username=username, message=message_content)
+    new_message = User(username=username, message=message_content, timestamp=timestamp)
     
     # Add the message to the database
     db.session.add(new_message)
@@ -51,21 +54,16 @@ def handle_new_message(data):
     messages = User.query.all()
 
     # Emit the updated messages to all clients
-    emit('update_messages', [{'username': msg.username, 'message': msg.message} for msg in messages], broadcast=True)
+    emit('update_messages', [{'username': msg.username, 'message': msg.message, 'timestamp': msg.timestamp} for msg in messages], broadcast=True)
 
 @socketio.on('connect')
 def handle_connect():
     # Retrieve all messages from the database and emit them to the client
     messages = User.query.all()
+    print(messages, "**************")
 
     for msg in messages:
-        print(msg.username)
-        print(msg.message)
-        print(type(msg.username))
-        print(type(msg.message))
-
-        #if not isinstance(msg.message, type(None)) and msg.message != "None":
-        emit('update_messages', [{'username': msg.username, 'message': msg.message} for msg in messages])
+        emit('update_messages', [{'username': msg.username, 'message': msg.message, 'timestamp': msg.timestamp} for msg in messages])
 
 if __name__ == '__main__':
     with app.app_context():

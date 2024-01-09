@@ -11,6 +11,7 @@ socket.on('update_messages', function(messages) {
       if (message.message !== null) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'media w-50 mb-3';
+        console.log(message.timestamp)
         
         const white  = `
 				<div class="media w-50 ml-auto mb-3">
@@ -35,8 +36,6 @@ socket.on('update_messages', function(messages) {
 					</div>
 				</div>
 			`;
-        console.log("username is:",message.username)
-        console.log(localStorage.getItem('username'))
 
         if (message.username == localStorage.getItem('username'))
           messageDiv.innerHTML = blue
@@ -59,7 +58,7 @@ async function sendMessage() {
         var username = await getUsername();
 
         // send username and message to server to store it in db
-        socket.emit('new_message', { 'username': username, 'message': message });
+        socket.emit('new_message', { 'username': username, 'message': message, 'timestamp': dateNow()});
         messageInput.value = '';
     }
 }
@@ -104,4 +103,3 @@ function dateNow() {
 
   return cur_day + " " + hours + ":" + minutes;
 }
-

@@ -7,4 +7,5 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=False)
     message = db.Column(db.String(500))
     password = db.Column(db.String(500))
+    timestamp = db.Column(db.String(500))
 
