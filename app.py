@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from model import User
@@ -29,9 +29,10 @@ def home_page():
 
 @app.route('/chat')
 def chat():
+    username = request.args.get('username')
     messages = User.query.all()
     message_text = [message.message for message in messages]
-    return render_template('index.html', messages=messages)
+    return render_template('index.html', messages=messages, username=username)
 
 # retrieve the session username
 @socketio.on('new_message')

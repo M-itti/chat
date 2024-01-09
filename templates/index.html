@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="assets/css/Simple-Bootstrap-Chat.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
 		<script src="{{ url_for('static', filename='main.js') }}"></script>
+		<script>
+						// Retrieve the username passed from Flask and store it in localStorage
+			const username = "{{ username }}";  // This syntax inserts the username     from Flask into JavaScript
+			localStorage.setItem('username', username);
+		</script>
+
+
 
 </head>
 

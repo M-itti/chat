@@ -30,6 +30,8 @@ def register():
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    username= None
+
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -40,7 +42,7 @@ def login():
             # Log the user in
             session['username'] = username
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('chat'))
+            return redirect(url_for('chat', username=username))
         else:
             flash('Login unsuccessful. Please check your credentials.', 'danger')
 

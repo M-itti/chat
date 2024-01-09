@@ -12,7 +12,8 @@ socket.on('update_messages', function(messages) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'media w-50 mb-3';
         
-        messageDiv.innerHTML = `
+        const white  = `
+				<div class="media w-50 ml-auto mb-3">
           <img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
           <div class="media-body ml-3">
             <div class="bg-light rounded py-2 px-3 mb-2">
@@ -20,7 +21,23 @@ socket.on('update_messages', function(messages) {
             </div>
             <p class="small text-muted">${message.timestamp}</p>
           </div>
+				</div>
         `;
+
+
+				const blue = `
+				<div class="media">
+					<img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+					<div class="media-body ml-3">
+						<div class="bg-primary rounded py-2 px-3 mb-2">
+							<p class="text-small mb-0 text-white">${message.username}: ${message.message}</p>
+						</div>
+						<p class="small text-muted">${message.timestamp}</p>
+					</div>
+				</div>
+			`;
+
+        messageDiv.innerHTML = blue
         
         messageContainer.querySelector('.chat-box').appendChild(messageDiv);
       }
@@ -48,6 +65,7 @@ async function getUsername() {
         const data = await response.json();
 
         if (data.username) {
+					
           return data.username
         } else {
             console.log('Username not found');
