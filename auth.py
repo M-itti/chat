@@ -30,8 +30,6 @@ def register():
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    username= None
-
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -53,4 +51,14 @@ def logout():
     session.pop('username', None) 
     flash('Logged out in successfully!', 'success')
     return redirect(url_for('home_page'))
+
+@auth_bp.route("/guest")
+def anonymous():
+    import random
+    import string
+
+    random_suffix = ''.join(random.choices(string.digits, k=6))  
+    username = f"guest_{random_suffix}"
+    session['username'] = username
+    return redirect(url_for('chat', username=username))
 

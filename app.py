@@ -11,7 +11,7 @@ app = Flask(__name__, static_folder='assets')
 app.config['SECRET_KEY'] = 'secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.db'  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-socketio = SocketIO(app, cors_allowed_origins='*', engineio_logger=True,logger=False)
+socketio = SocketIO(app, cors_allowed_origins='*', engineio_logger=False,logger=False)
 
 db.init_app(app)
 app.register_blueprint(auth_bp, url_prefix='/')
@@ -64,5 +64,5 @@ def handle_connect():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=True, port=5002)
 
