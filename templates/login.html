@@ -14,10 +14,20 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css    ') }}">
     <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
 </head>
 
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <section class="login-clean" style="background-color: transparent;font-family: Poppins, sans-serif;">
       <form method="post" style="margin-top: 40px;" action="{{ url_for('auth.login') }}" method="POST">
             <h2 class="visually-hidden">Login Form</h2>
