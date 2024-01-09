@@ -24,7 +24,6 @@ socket.on('update_messages', function(messages) {
 				</div>
         `;
 
-
 				const blue = `
 				<div class="media">
 					<img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
@@ -36,8 +35,14 @@ socket.on('update_messages', function(messages) {
 					</div>
 				</div>
 			`;
+        console.log("username is:",message.username)
+        console.log(localStorage.getItem('username'))
 
-        messageDiv.innerHTML = blue
+        if (message.username == localStorage.getItem('username'))
+          messageDiv.innerHTML = blue
+        else {
+          messageDiv.innerHTML = white
+        }
         
         messageContainer.querySelector('.chat-box').appendChild(messageDiv);
       }
