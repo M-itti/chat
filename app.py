@@ -6,7 +6,6 @@ from model import db, User
 from auth import auth_bp
 from flask import jsonify, session
 
-#app = Flask(__name__)
 app = Flask(__name__, static_folder='assets')
 
 app.config['SECRET_KEY'] = 'secret!'
@@ -34,14 +33,12 @@ def chat():
     message_text = [message.message for message in messages]
     return render_template('index.html', messages=messages, username=username)
 
-# TODO: store the time in database
 # retrieve the session username
 @socketio.on('new_message')
 def handle_new_message(data):
     username = data.get('username')
     message_content = data.get('message')
     timestamp = data.get('timestamp')
-    print(timestamp)
     ses_username = session['username']
     
     # Create a new Message instance
@@ -60,7 +57,6 @@ def handle_new_message(data):
 def handle_connect():
     # Retrieve all messages from the database and emit them to the client
     messages = User.query.all()
-    print(messages, "**************")
 
     for msg in messages:
         emit('update_messages', [{'username': msg.username, 'message': msg.message, 'timestamp': msg.timestamp} for msg in messages])
