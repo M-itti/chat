@@ -6,6 +6,8 @@ from model import db, User
 from auth import auth_bp
 from flask import jsonify, session
 
+from config import Server, Port, Debug
+
 app = Flask(__name__, static_folder='assets')
 
 app.config['SECRET_KEY'] = 'secret!'
@@ -64,5 +66,5 @@ def handle_connect():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    socketio.run(app, debug=True, port=5002)
+    socketio.run(app, debug=Debug, port=Port)
 
