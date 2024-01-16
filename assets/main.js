@@ -11,7 +11,6 @@ socket.on('update_messages', function(messages) {
       if (message.message !== null) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'media w-50 mb-3';
-        console.log(message.timestamp)
         
         const white  = `
 				<div class="media w-50 ml-auto mb-3">
