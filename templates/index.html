@@ -7,16 +7,24 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/Simple-Bootstrap-Chat.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
 		<script>
 						// Retrieve the username passed from Flask and store it in localStorage
 			const username = "{{ username }}";  // This syntax inserts the username     from Flask into JavaScript
 			localStorage.setItem('username', username);
 		</script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js'></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
     <link rel="icon" href="assets/favico.ico" type="image/x-icon">
 
     <title id="pageTitle">Chat</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="chat" content="Flask Chat App">
+    <meta name="description" content="Connect with others through our Flask-based chat web app. Real-time messaging and a user-friendly interface for seamless communication.">
+    <meta name="keywords" content="Flask, web app, chat, real-time messaging, communication">
+    <meta name="author" content="mehdi">
+
 
 </head>
 
