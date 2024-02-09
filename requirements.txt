@@ -2,5 +2,8 @@ flask
 flask-bcrypt
 flask-socketio
 Flask-SQLAlchemy
+Flask-Session
 python-dotenv
 eventlet
+redis
+

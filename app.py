@@ -5,16 +5,23 @@ from model import User
 from model import db, User
 from auth import auth_bp
 from flask import jsonify, session
-
+import redis
+from flask_session import Session
 from config import Server, Port, Debug
 
 app = Flask(__name__, static_folder='assets')
 
 app.config['SECRET_KEY'] = 'secret!'
+app.config['SESSION_TYPE'] = 'redis'
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_KEY_PREFIX'] = 'session:'
+app.config['SESSION_REDIS'] = redis.Redis(host='localhost', port=6379, db=0)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.db'  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 socketio = SocketIO(app, cors_allowed_origins='*', engineio_logger=False,logger=False)
 
+Session(app)
 db.init_app(app)
 app.register_blueprint(auth_bp, url_prefix='/')
 
