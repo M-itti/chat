@@ -1,41 +1,28 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
-from model import User
-from model import db, User
-from auth import auth_bp
 from flask import jsonify, session
 import redis
 from flask_session import Session
-from config import Server, Port, Debug
+from flask import Blueprint
 
-app = Flask(__name__, static_folder='assets')
+from .model import db, User
+from .auth import auth_bp
+from . import socketio
 
-app.config['SECRET_KEY'] = 'secret!'
-app.config['SESSION_TYPE'] = 'redis'
-app.config['SESSION_PERMANENT'] = True
-app.config['SESSION_KEY_PREFIX'] = 'session:'
-app.config['SESSION_REDIS'] = redis.Redis(host='localhost', port=6379, db=0)
+main = Blueprint('main', __name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.db'  
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-socketio = SocketIO(app, cors_allowed_origins='*', engineio_logger=False,logger=False)
-
-Session(app)
-db.init_app(app)
-app.register_blueprint(auth_bp, url_prefix='/')
-
-@app.route('/get_name')
+@main.route('/get_name')
 def get_name():
     username = session.get('username')  
     return jsonify({'username': username})  
 
-@app.route('/')
-@app.route('/home')
+@main.route('/')
+@main.route('/home')
 def home_page():
     return render_template('home.html')
 
-@app.route('/chat')
+@main.route('/chat')
 def chat():
     username = request.args.get('username')
     messages = User.query.all()
@@ -69,9 +56,4 @@ def handle_connect():
 
     for msg in messages:
         emit('update_messages', [{'username': msg.username, 'message': msg.message, 'timestamp': msg.timestamp} for msg in messages])
-
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    socketio.run(app, debug=Debug, port=Port)
 

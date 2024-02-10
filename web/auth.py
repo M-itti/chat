@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template
 from flask import Blueprint, render_template, redirect, url_for, flash
-from model import User, db
 from flask_bcrypt import check_password_hash, generate_password_hash
 from flask import request, session
 from sqlalchemy import exc
+
+from .model import User, db
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -40,7 +40,7 @@ def login():
             # Log the user in
             session['username'] = username
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('chat', username=username))
+            return redirect(url_for('main.chat', username=username))
         else:
             flash('Login unsuccessful. Please check your credentials.', 'danger')
 
@@ -60,5 +60,5 @@ def anonymous():
     random_suffix = ''.join(random.choices(string.digits, k=6))  
     username = f"guest_{random_suffix}"
     session['username'] = username
-    return redirect(url_for('chat', username=username))
+    return redirect(url_for('main.chat', username=username))
 
