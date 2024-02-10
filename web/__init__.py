@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 import redis
 
-socketio = SocketIO(cors_allowed_origins='*', engineio_logger=False, logger=False)
+socketio = SocketIO(cors_allowed_origins='*', engineio_logger=False, logger=True)
 
 def create_app():
     app = Flask(__name__, static_folder='assets')
@@ -21,8 +21,7 @@ def create_app():
 
     db.init_app(app)
     Session(app)
-    socketio.init_app(app) # added
-
+    socketio.init_app(app) 
 
     app.register_blueprint(auth_bp, url_prefix='/')
     app.register_blueprint(main, url_prefix='/')
