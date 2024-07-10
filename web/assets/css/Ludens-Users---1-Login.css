@@ -53,7 +53,7 @@
 }
 
 .login-clean form .forgot {
-  display: block;
+  display: flex;
   text-align: center;
   font-size: 12px;
   color: #6f7a85;

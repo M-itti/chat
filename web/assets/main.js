@@ -50,7 +50,10 @@ async function sendMessage() {
 
     var messageInput = document.getElementById('message_input');
     var message = messageInput.value.trim();
-    
+  	
+	// Sanitize the message 
+	var message = santizeHTML(message)
+	 
     if (message !== '' && message != null) {
         var username = await getUsername();
 
@@ -74,6 +77,19 @@ async function getUsername() {
     } catch (error) {
         console.error('Error:', error);
     }
+}
+
+function sanitizeHTML(str) {
+    // Replace potentially harmful characters with HTML entities
+    return str.replace(/[&<>"']/g, function(match) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[match];
+    });
 }
 
 function dateNow() {
